@@ -6,11 +6,15 @@ from chat import beregn_chat
 app = Flask(__name__)
 CORS(app)
 
-@app.route("/chat", methods=["POST"])
+@app.route("/chat", methods=["GET", "POST"])
 def chat():
     try:
-        data = request.get_json()
-        prompt = data.get("prompt", "")
+        if request.method == "GET":
+            prompt = request.args.get("prompt", "")
+        else:
+            data = request.get_json()
+            prompt = data.get("prompt", "")
+
         print("Mottatt prompt:", prompt)
 
         if not prompt:
@@ -28,4 +32,4 @@ def chat():
         return jsonify({"result": "Beklager, det oppsto en feil under beregningen."}), 500
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=5050)
