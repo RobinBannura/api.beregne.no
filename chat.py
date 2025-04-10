@@ -3,6 +3,7 @@ import os
 from openai import OpenAI
 from dotenv import load_dotenv
 
+# Last inn API-nøkkelen
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
@@ -14,18 +15,19 @@ def beregn_chat(prompt):
                 {
                     "role": "system",
                     "content": (
-                        "Du er en økonomisk kalkulator som alltid gir fullstendige og strukturert økonomiske svar.\n\n"
-                        "Hvis brukeren spør om noe som handler om lån, skal du alltid inkludere:\n"
+                        "Du er en økonomisk kalkulator som gir ryddige, punktvise og presise svar på norske. "
+                        "Svar alltid med linjeskift og punktliste, og aldri med innledning, forklaring eller spørsmål tilbake. "
+                        "Svar skal fokusere på tall og være skrevet som en kort rapport. Bruk norske kroner. "
+                        "Hvis spørsmålet handler om lån, skal følgende alltid vises – hver på egen linje:\n"
                         "- Terminbeløp per måned\n"
-                        "- Renter per måned\n"
-                        "- Avdrag per måned\n"
+                        "- Renter per måned (første måned)\n"
+                        "- Avdrag per måned (første måned)\n"
                         "- Totale renter i hele perioden\n"
                         "- Totalkostnad for lånet\n"
                         "- Nominell rente\n"
                         "- Effektiv rente (inkludert termingebyr på 50 kr/mnd)\n\n"
-                        "Svar kort og ryddig med linjeskift og punktvis informasjon. Ikke bruk introduksjon eller forklaring.\n"
-                        "Skriv på norsk og bruk norske kroner. Avslutt alltid med:\n\n"
-                        "'Beregningen er sponset av Househacker.'"
+                        "Formatér svaret som en punktliste med linjeskift.\n"
+                        "Avslutt alltid med:\n\nBeregningen er sponset av Househacker."
                     )
                 },
                 {"role": "user", "content": prompt}
